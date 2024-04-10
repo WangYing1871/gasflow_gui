@@ -31,7 +31,10 @@ FORMS +=                     \
   $$PWD/ui/*.ui              \
   $$PWD/ui/components/*.ui 
                        
+RESOURCES += images.qrc
+
 TARGET = GasFlow       
+
 
 target.path = $$PWD/install
 

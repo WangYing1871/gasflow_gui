@@ -57,7 +57,8 @@ SOURCES       = ../src/component.cpp \
 		../src/mainwindow.cpp \
 		../src/monitor.cpp \
 		../src/run.cpp \
-		../src/util.cpp moc_component.cpp \
+		../src/util.cpp qrc_images.cpp \
+		moc_component.cpp \
 		moc_mainwindow.cpp \
 		moc_monitor.cpp \
 		moc_run.cpp
@@ -67,6 +68,7 @@ OBJECTS       = component.o \
 		monitor.o \
 		run.o \
 		util.o \
+		qrc_images.o \
 		moc_component.o \
 		moc_mainwindow.o \
 		moc_monitor.o \
@@ -540,7 +542,8 @@ Makefile: ../qmake.pro ../../../../qt5/qtbase/mkspecs/features/spec_pre.prf \
 		../../../../qt5/qtbase/mkspecs/features/exceptions.prf \
 		../../../../qt5/qtbase/mkspecs/features/yacc.prf \
 		../../../../qt5/qtbase/mkspecs/features/lex.prf \
-		../qmake.pro
+		../qmake.pro \
+		../images.qrc
 	$(QMAKE) -o Makefile ../qmake.pro
 ../../../../qt5/qtbase/mkspecs/features/spec_pre.prf:
 ../../../../qt5/qtbase/mkspecs/common/unix.conf:
@@ -767,6 +770,7 @@ Makefile: ../qmake.pro ../../../../qt5/qtbase/mkspecs/features/spec_pre.prf \
 ../../../../qt5/qtbase/mkspecs/features/yacc.prf:
 ../../../../qt5/qtbase/mkspecs/features/lex.prf:
 ../qmake.pro:
+../images.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../qmake.pro
 
@@ -781,6 +785,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../images.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../../qt5/qtbase/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/component.h ../src/mainwindow.h ../src/monitor.h ../src/run.h ../src/util.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../src/component.cpp ../src/main.cpp ../src/mainwindow.cpp ../src/monitor.cpp ../src/run.cpp ../src/util.cpp $(DISTDIR)/
@@ -808,8 +813,28 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_images.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_images.cpp
+qrc_images.cpp: ../images.qrc \
+		../../../qt5-build/qtbase/bin/rcc \
+		../images/exit.jpeg \
+		../images/gd.png \
+		../images/flowmeter.png \
+		../images/monitor.png \
+		../images/vs.png \
+		../images/zero.png \
+		../images/humidity.png \
+		../images/temperature.png \
+		../images/disconnect.png \
+		../images/pump.png \
+		../images/run.png \
+		../images/rd.png \
+		../images/test.png \
+		../images/connect.png \
+		../images/settings.png
+	/home/wangying/software/qt5-build/qtbase/bin/rcc -name images ../images.qrc -o qrc_images.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -1031,11 +1056,99 @@ moc_component.cpp: ../src/component.h \
 		../../../../qt5/qtbase/src/widgets/dialogs/qdialog.h \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtCore/QVariant \
+		../../../qt5-build/qtbase/include/QtWidgets/QApplication \
+		../../../qt5-build/qtbase/include/QtWidgets/qapplication.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qcoreapplication.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qcoreapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qeventloop.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qeventloop.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qdesktopwidget.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qdesktopwidget.h \
+		../../../qt5-build/qtbase/include/QtGui/qguiapplication.h \
+		../../../../qt5/qtbase/src/gui/kernel/qguiapplication.h \
+		../../../qt5-build/qtbase/include/QtGui/qinputmethod.h \
+		../../../../qt5/qtbase/src/gui/kernel/qinputmethod.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtGui/qpen.h \
+		../../../../qt5/qtbase/src/gui/painting/qpen.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
+		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtGui/qicon.h \
+		../../../../qt5/qtbase/src/gui/image/qicon.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		ui_AHT20.h \
 		ui_Valve.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabwidget.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabwidget.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		moc_predefs.h \
 		../../../qt5-build/qtbase/bin/moc
 	/home/wangying/software/qt5-build/qtbase/bin/moc $(DEFINES) --include /home/wangying/software/test/gasflow_gui_qt/build/moc_predefs.h -I/home/wangying/qt5/qtbase/mkspecs/linux-g++ -I/home/wangying/software/test/gasflow_gui_qt -I/home/wangying/software/qt5-build/qtbase/include -I/home/wangying/software/qt5-build/qtbase/include/QtCharts -I/home/wangying/software/qt5-build/qtbase/include/QtWidgets -I/home/wangying/software/qt5-build/qtbase/include/QtGui -I/home/wangying/software/qt5-build/qtbase/include/QtSerialBus -I/home/wangying/software/qt5-build/qtbase/include/QtSerialPort -I/home/wangying/software/qt5-build/qtbase/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/component.h -o moc_component.cpp
@@ -1309,14 +1422,111 @@ moc_mainwindow.cpp: ../src/mainwindow.h \
 		../../../qt5-build/qtbase/include/QtWidgets/QWidget \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QApplication \
+		../../../qt5-build/qtbase/include/QtWidgets/qapplication.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qcoreapplication.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qcoreapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qeventloop.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qeventloop.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qdesktopwidget.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qdesktopwidget.h \
+		../../../qt5-build/qtbase/include/QtGui/qguiapplication.h \
+		../../../../qt5/qtbase/src/gui/kernel/qguiapplication.h \
+		../../../qt5-build/qtbase/include/QtGui/qinputmethod.h \
+		../../../../qt5/qtbase/src/gui/kernel/qinputmethod.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		ui_AHT20.h \
 		ui_Valve.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		../src/run.h \
 		ui_run.h \
 		ui_mainwindow.h \
+		../../../qt5-build/qtbase/include/QtGui/QIcon \
+		../../../qt5-build/qtbase/include/QtWidgets/QAction \
+		../../../qt5-build/qtbase/include/QtWidgets/qaction.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qaction.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qactiongroup.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qactiongroup.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenu \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenu.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenu.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenuBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenubar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenubar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QStatusBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qstatusbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qstatusbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QTextEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qtextedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtextedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextdocument.h \
+		../../../../qt5/qtbase/src/gui/text/qtextdocument.h \
 		../src/monitor.h \
 		../../../qt5-build/qtbase/include/QtCore/QTimer \
 		../../../qt5-build/qtbase/include/QtCore/qtimer.h \
@@ -1777,6 +1987,53 @@ moc_run.cpp: ../src/run.h \
 		../../../qt5-build/qtbase/include/QtGui/qtouchdevice.h \
 		../../../../qt5/qtbase/src/gui/kernel/qtouchdevice.h \
 		ui_run.h \
+		../../../qt5-build/qtbase/include/QtCore/QVariant \
+		../../../qt5-build/qtbase/include/QtWidgets/QApplication \
+		../../../qt5-build/qtbase/include/QtWidgets/qapplication.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qcoreapplication.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qcoreapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qeventloop.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qeventloop.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qdesktopwidget.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qdesktopwidget.h \
+		../../../qt5-build/qtbase/include/QtGui/qguiapplication.h \
+		../../../../qt5/qtbase/src/gui/kernel/qguiapplication.h \
+		../../../qt5-build/qtbase/include/QtGui/qinputmethod.h \
+		../../../../qt5/qtbase/src/gui/kernel/qinputmethod.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtGui/qpen.h \
+		../../../../qt5/qtbase/src/gui/painting/qpen.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
+		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtGui/qicon.h \
+		../../../../qt5/qtbase/src/gui/image/qicon.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		moc_predefs.h \
 		../../../qt5-build/qtbase/bin/moc
 	/home/wangying/software/qt5-build/qtbase/bin/moc $(DEFINES) --include /home/wangying/software/test/gasflow_gui_qt/build/moc_predefs.h -I/home/wangying/qt5/qtbase/mkspecs/linux-g++ -I/home/wangying/software/test/gasflow_gui_qt -I/home/wangying/software/qt5-build/qtbase/include -I/home/wangying/software/qt5-build/qtbase/include/QtCharts -I/home/wangying/software/qt5-build/qtbase/include/QtWidgets -I/home/wangying/software/qt5-build/qtbase/include/QtGui -I/home/wangying/software/qt5-build/qtbase/include/QtSerialBus -I/home/wangying/software/qt5-build/qtbase/include/QtSerialPort -I/home/wangying/software/qt5-build/qtbase/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../src/run.h -o moc_run.cpp
@@ -1826,7 +2083,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -2042,19 +2299,103 @@ component.o: ../src/component.cpp ../src/component.h \
 		../../../../qt5/qtbase/src/widgets/dialogs/qdialog.h \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtCore/QVariant \
+		../../../qt5-build/qtbase/include/QtWidgets/QApplication \
+		../../../qt5-build/qtbase/include/QtWidgets/qapplication.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qcoreapplication.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qcoreapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qeventloop.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qeventloop.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qdesktopwidget.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qdesktopwidget.h \
+		../../../qt5-build/qtbase/include/QtGui/qguiapplication.h \
+		../../../../qt5/qtbase/src/gui/kernel/qguiapplication.h \
+		../../../qt5-build/qtbase/include/QtGui/qinputmethod.h \
+		../../../../qt5/qtbase/src/gui/kernel/qinputmethod.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtGui/qpen.h \
+		../../../../qt5/qtbase/src/gui/painting/qpen.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
+		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtGui/qicon.h \
+		../../../../qt5/qtbase/src/gui/image/qicon.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		ui_AHT20.h \
 		ui_Valve.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabwidget.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabwidget.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		../src/mainwindow.h \
 		../../../qt5-build/qtbase/include/QtWidgets/QMainWindow \
 		../../../qt5-build/qtbase/include/QtWidgets/qmainwindow.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qmainwindow.h \
-		../../../qt5-build/qtbase/include/QtWidgets/qtabwidget.h \
-		../../../../qt5/qtbase/src/widgets/widgets/qtabwidget.h \
-		../../../qt5-build/qtbase/include/QtGui/qicon.h \
-		../../../../qt5/qtbase/src/gui/image/qicon.h \
 		../../../qt5-build/qtbase/include/QtGui/QCloseEvent \
 		../../../qt5-build/qtbase/include/QtCharts/QChartView \
 		../../../qt5-build/qtbase/include/QtCharts/qchartview.h \
@@ -2067,10 +2408,7 @@ component.o: ../src/component.cpp ../src/component.h \
 		../../../../qt5/qtcharts/src/charts/qchartglobal.h \
 		../../../qt5-build/qtbase/include/QtCore/QtGlobal \
 		../../../qt5-build/qtbase/include/QtGui/QPen \
-		../../../qt5-build/qtbase/include/QtGui/qpen.h \
-		../../../../qt5/qtbase/src/gui/painting/qpen.h \
 		../../../qt5-build/qtbase/include/QtGui/QFont \
-		../../../qt5-build/qtbase/include/QtCore/QVariant \
 		../../../qt5-build/qtbase/include/QtCharts/QAbstractSeries \
 		../../../qt5-build/qtbase/include/QtCharts/qabstractseries.h \
 		../../../../qt5/qtcharts/src/charts/qabstractseries.h \
@@ -2094,19 +2432,35 @@ component.o: ../src/component.cpp ../src/component.h \
 		../../../../qt5/qtbase/src/widgets/graphicsview/qgraphicsview.h \
 		../../../qt5-build/qtbase/include/QtGui/qpainter.h \
 		../../../../qt5/qtbase/src/gui/painting/qpainter.h \
-		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
-		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qscrollarea.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qscrollarea.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qabstractscrollarea.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qabstractscrollarea.h \
-		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
-		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qgraphicsscene.h \
 		../../../../qt5/qtbase/src/widgets/graphicsview/qgraphicsscene.h \
 		../src/run.h \
 		ui_run.h \
 		ui_mainwindow.h \
+		../../../qt5-build/qtbase/include/QtGui/QIcon \
+		../../../qt5-build/qtbase/include/QtWidgets/QAction \
+		../../../qt5-build/qtbase/include/QtWidgets/qaction.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qaction.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qactiongroup.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qactiongroup.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenu \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenu.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenu.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenuBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenubar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenubar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QStatusBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qstatusbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qstatusbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QTextEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qtextedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtextedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextdocument.h \
+		../../../../qt5/qtbase/src/gui/text/qtextdocument.h \
 		../src/monitor.h \
 		../../../qt5-build/qtbase/include/QtCore/QTimer \
 		../../../qt5-build/qtbase/include/QtCore/qtimer.h \
@@ -2412,14 +2766,98 @@ main.o: ../src/main.cpp ../../../qt5-build/qtbase/include/QtWidgets/QApplication
 		../../../qt5-build/qtbase/include/QtWidgets/QWidget \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		ui_AHT20.h \
 		ui_Valve.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		../src/run.h \
 		ui_run.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../../qt5-build/qtbase/include/QtGui/QIcon \
+		../../../qt5-build/qtbase/include/QtWidgets/QAction \
+		../../../qt5-build/qtbase/include/QtWidgets/qaction.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qaction.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qactiongroup.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qactiongroup.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenu \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenu.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenu.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenuBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenubar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenubar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QStatusBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qstatusbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qstatusbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QTextEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qtextedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtextedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextdocument.h \
+		../../../../qt5/qtbase/src/gui/text/qtextdocument.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../src/main.cpp
 
 mainwindow.o: ../src/mainwindow.cpp ../../../qt5-build/qtbase/include/QtWidgets \
@@ -2735,14 +3173,87 @@ mainwindow.o: ../src/mainwindow.cpp ../../../qt5-build/qtbase/include/QtWidgets 
 		../../../qt5-build/qtbase/include/QtWidgets/QWidget \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		ui_AHT20.h \
 		ui_Valve.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		../src/run.h \
 		ui_run.h \
 		ui_mainwindow.h \
+		../../../qt5-build/qtbase/include/QtGui/QIcon \
+		../../../qt5-build/qtbase/include/QtWidgets/QStatusBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qstatusbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qstatusbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QTextEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qtextedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtextedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextdocument.h \
+		../../../../qt5/qtbase/src/gui/text/qtextdocument.h \
 		../src/monitor.h \
 		../../../qt5-build/qtbase/include/QtCore/QTimer \
 		../../../qt5-build/qtbase/include/QtCore/qtimer.h \
@@ -3222,6 +3733,53 @@ run.o: ../src/run.cpp ../../../qt5-build/qtbase/include/QtWidgets/QMessageBox \
 		../src/run.h \
 		../../../qt5-build/qtbase/include/QtWidgets/QWidget \
 		ui_run.h \
+		../../../qt5-build/qtbase/include/QtCore/QVariant \
+		../../../qt5-build/qtbase/include/QtWidgets/QApplication \
+		../../../qt5-build/qtbase/include/QtWidgets/qapplication.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qcoreapplication.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qcoreapplication.h \
+		../../../qt5-build/qtbase/include/QtCore/qeventloop.h \
+		../../../../qt5/qtbase/src/corelib/kernel/qeventloop.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qdesktopwidget.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qdesktopwidget.h \
+		../../../qt5-build/qtbase/include/QtGui/qguiapplication.h \
+		../../../../qt5/qtbase/src/gui/kernel/qguiapplication.h \
+		../../../qt5-build/qtbase/include/QtGui/qinputmethod.h \
+		../../../../qt5/qtbase/src/gui/kernel/qinputmethod.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGroupBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qgroupbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qgroupbox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QHBoxLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/qboxlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qboxlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qlayoutitem.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qlayoutitem.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qgridlayout.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qgridlayout.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLineEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qlineedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlineedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextcursor.h \
+		../../../../qt5/qtbase/src/gui/text/qtextcursor.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextformat.h \
+		../../../../qt5/qtbase/src/gui/text/qtextformat.h \
+		../../../qt5-build/qtbase/include/QtGui/qpen.h \
+		../../../../qt5/qtbase/src/gui/painting/qpen.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
+		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QRadioButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qradiobutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qradiobutton.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractbutton.h \
+		../../../qt5-build/qtbase/include/QtGui/qicon.h \
+		../../../../qt5/qtbase/src/gui/image/qicon.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpacerItem \
 		../src/mainwindow.h \
 		../../../qt5-build/qtbase/include/QtCore/QObject \
 		../../../qt5-build/qtbase/include/QtWidgets/QMainWindow \
@@ -3229,8 +3787,6 @@ run.o: ../src/run.cpp ../../../qt5-build/qtbase/include/QtWidgets/QMessageBox \
 		../../../../qt5/qtbase/src/widgets/widgets/qmainwindow.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qtabwidget.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qtabwidget.h \
-		../../../qt5-build/qtbase/include/QtGui/qicon.h \
-		../../../../qt5/qtbase/src/gui/image/qicon.h \
 		../../../qt5-build/qtbase/include/QtWidgets/QDialog \
 		../../../qt5-build/qtbase/include/QtGui/QCloseEvent \
 		../../../qt5-build/qtbase/include/QtCharts/QChartView \
@@ -3244,10 +3800,7 @@ run.o: ../src/run.cpp ../../../qt5-build/qtbase/include/QtWidgets/QMessageBox \
 		../../../../qt5/qtcharts/src/charts/qchartglobal.h \
 		../../../qt5-build/qtbase/include/QtCore/QtGlobal \
 		../../../qt5-build/qtbase/include/QtGui/QPen \
-		../../../qt5-build/qtbase/include/QtGui/qpen.h \
-		../../../../qt5/qtbase/src/gui/painting/qpen.h \
 		../../../qt5-build/qtbase/include/QtGui/QFont \
-		../../../qt5-build/qtbase/include/QtCore/QVariant \
 		../../../qt5-build/qtbase/include/QtCharts/QAbstractSeries \
 		../../../qt5-build/qtbase/include/QtCharts/qabstractseries.h \
 		../../../../qt5/qtcharts/src/charts/qabstractseries.h \
@@ -3271,25 +3824,80 @@ run.o: ../src/run.cpp ../../../qt5-build/qtbase/include/QtWidgets/QMessageBox \
 		../../../../qt5/qtbase/src/widgets/graphicsview/qgraphicsview.h \
 		../../../qt5-build/qtbase/include/QtGui/qpainter.h \
 		../../../../qt5/qtbase/src/gui/painting/qpainter.h \
-		../../../qt5-build/qtbase/include/QtGui/qtextoption.h \
-		../../../../qt5/qtbase/src/gui/text/qtextoption.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qscrollarea.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qscrollarea.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qabstractscrollarea.h \
 		../../../../qt5/qtbase/src/widgets/widgets/qabstractscrollarea.h \
-		../../../qt5-build/qtbase/include/QtWidgets/qframe.h \
-		../../../../qt5/qtbase/src/widgets/widgets/qframe.h \
 		../../../qt5-build/qtbase/include/QtWidgets/qgraphicsscene.h \
 		../../../../qt5/qtbase/src/widgets/graphicsview/qgraphicsscene.h \
 		../src/component.h \
 		../src/util.h \
 		ui_BMP280.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QLabel \
+		../../../qt5-build/qtbase/include/QtWidgets/qlabel.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qlabel.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QPushButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qpushbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qpushbutton.h \
 		ui_AHT20.h \
 		ui_Valve.h \
 		ui_Pump.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QSlider \
+		../../../qt5-build/qtbase/include/QtWidgets/qslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractslider.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractslider.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QToolButton \
+		../../../qt5-build/qtbase/include/QtWidgets/qtoolbutton.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtoolbutton.h \
 		ui_MFC.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QComboBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qcombobox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qcombobox.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../qt5/qtbase/src/widgets/itemviews/qabstractitemdelegate.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyleoption.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyleoption.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qabstractspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qabstractspinbox.h \
+		../../../qt5-build/qtbase/include/QtGui/qvalidator.h \
+		../../../../qt5/qtbase/src/gui/util/qvalidator.h \
+		../../../qt5-build/qtbase/include/QtCore/qregularexpression.h \
+		../../../../qt5/qtbase/src/corelib/tools/qregularexpression.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qstyle.h \
+		../../../../qt5/qtbase/src/widgets/styles/qstyle.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qtabbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtabbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qrubberband.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qrubberband.h \
+		../../../qt5-build/qtbase/include/QtCore/qabstractitemmodel.h \
+		../../../../qt5/qtbase/src/corelib/itemmodels/qabstractitemmodel.h \
 		ui_setting_modbus.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QGridLayout \
+		../../../qt5-build/qtbase/include/QtWidgets/QSpinBox \
+		../../../qt5-build/qtbase/include/QtWidgets/qspinbox.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qspinbox.h \
 		ui_mainwindow.h \
+		../../../qt5-build/qtbase/include/QtGui/QIcon \
+		../../../qt5-build/qtbase/include/QtWidgets/QAction \
+		../../../qt5-build/qtbase/include/QtWidgets/qaction.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qaction.h \
+		../../../qt5-build/qtbase/include/QtWidgets/qactiongroup.h \
+		../../../../qt5/qtbase/src/widgets/kernel/qactiongroup.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenu \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenu.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenu.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QMenuBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qmenubar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qmenubar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QStatusBar \
+		../../../qt5-build/qtbase/include/QtWidgets/qstatusbar.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qstatusbar.h \
+		../../../qt5-build/qtbase/include/QtWidgets/QTextEdit \
+		../../../qt5-build/qtbase/include/QtWidgets/qtextedit.h \
+		../../../../qt5/qtbase/src/widgets/widgets/qtextedit.h \
+		../../../qt5-build/qtbase/include/QtGui/qtextdocument.h \
+		../../../../qt5/qtbase/src/gui/text/qtextdocument.h \
 		../src/monitor.h \
 		../../../qt5-build/qtbase/include/QtCore/QTimer \
 		../../../qt5-build/qtbase/include/QtCore/qtimer.h \
@@ -3303,6 +3911,9 @@ run.o: ../src/run.cpp ../../../qt5-build/qtbase/include/QtWidgets/QMessageBox \
 
 util.o: ../src/util.cpp ../src/util.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o util.o ../src/util.cpp
+
+qrc_images.o: qrc_images.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
 
 moc_component.o: moc_component.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_component.o moc_component.cpp
