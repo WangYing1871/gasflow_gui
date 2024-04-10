@@ -70,9 +70,8 @@ void BMP280::P(){
   std::stringstream sstr; sstr<<"Get Pressure: "<<get_str(view);
   m_parent->recive_text(0,sstr.str().c_str());
   delete[] view;
-
-
 }
+
 //---------------------------------------------------------------------
 
 
@@ -269,6 +268,11 @@ void MFC::zero_total(){
     return;
   }
   m_parent->recive_text(0,"Reset(to zero) total flow Ok");
+}
+void MFC::closeEvent(QCloseEvent* event){
+  modbus_t* mbs_ctx = m_parent->m_modbus->m_modbus_context;
+  uint16_t zero[3] = {0,0,0};
+  modbus_write_registers(mbs_ctx,15,3,zero);
 }
 
 //---------------------------------------------------------------------

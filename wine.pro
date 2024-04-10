@@ -42,6 +42,8 @@ FORMS +=                     \
   $$PWD/ui/*.ui              \
   $$PWD/ui/components/*.ui 
 
+RESOURCES += images.qrc
+
 target.path = $$PWD/install
 
 INSTALLS += target

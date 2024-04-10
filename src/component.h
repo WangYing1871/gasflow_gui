@@ -151,6 +151,8 @@ public:
   Ui::MFC ui;
 
   void parent(mainwindow* value) {m_parent = value;}
+
+  void closeEvent(QCloseEvent* event) override;
 private:
   mainwindow* m_parent;
 
